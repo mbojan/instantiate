@@ -63,3 +63,28 @@ stan_package_model <- function(
     compile = FALSE
   )
 }
+
+#' @rdname stan_package_model
+#' @param stan_file Path to Stan file. The compiled file is assumed to reside in
+#'   the same directory and have a name without extension.
+#' @export
+stan_package_model2 <- function(
+    stan_file, 
+    cmdstan_install = Sys.getenv("CMDSTAN_INSTALL")
+  ) {
+  stan_assert_cmdstanr()
+  stan_assert(stan_file, is.character(.), !anyNA(.), nzchar(.), file.exists(.))
+  exe_file <- file.path(dirname(stan_file), name)
+  exe_file <- if_any(stan_on_windows(), paste0(exe_file, ".exe"), exe_file)
+  path_old <- cmdstanr_path()
+  if (cmdstan_valid(path_old)) {
+    on.exit(suppressMessages(cmdstanr::set_cmdstan_path(path = path_old)))
+  }
+  path_new <- stan_cmdstan_path(cmdstan_install = cmdstan_install)
+  suppressMessages(cmdstanr::set_cmdstan_path(path = path_new))
+  cmdstanr::cmdstan_model(
+    stan_file = stan_file,
+    exe_file = exe_file,
+    compile = FALSE
+  )
+}

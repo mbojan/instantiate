@@ -2,6 +2,7 @@
 % Please edit documentation in R/stan_package_model.R
 \name{stan_package_model}
 \alias{stan_package_model}
+\alias{stan_package_model2}
 \title{Get a pre-compiled Stan model built into an R package.}
 \usage{
 stan_package_model(
@@ -10,6 +11,8 @@ stan_package_model(
   library = NULL,
   cmdstan_install = Sys.getenv("CMDSTAN_INSTALL")
 )
+
+stan_package_model2(stan_file, cmdstan_install = Sys.getenv("CMDSTAN_INSTALL"))
 }
 \arguments{
 \item{name}{Character of length 1, base name of the Stan model file
@@ -44,6 +47,9 @@ is not installed, the function returns the empty string \code{""}.
 \item \code{""} (default): Try all 3 options in the order above to find a valid
 installed copy of CmdStan.
 }}
+
+\item{stan_file}{Path to Stan file. The compiled file is assumed to reside in
+the same directory and have a name without extension.}
 }
 \description{
 Get the \code{cmdstanr} model object for a pre-compiled Stan
