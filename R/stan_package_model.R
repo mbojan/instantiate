@@ -74,7 +74,7 @@ stan_package_model2 <- function(
   ) {
   stan_assert_cmdstanr()
   stan_assert(stan_file, is.character(.), !anyNA(.), nzchar(.), file.exists(.))
-  exe_file <- file.path(dirname(stan_file), name)
+  exe_file <- gsub("\\.stan$", "", stan_file) # Drop the extension
   exe_file <- if_any(stan_on_windows(), paste0(exe_file, ".exe"), exe_file)
   path_old <- cmdstanr_path()
   if (cmdstan_valid(path_old)) {
